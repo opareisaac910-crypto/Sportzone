@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2c">
+  <title>SportZone — All Sports in One Place</title>
+  <style>
+    :root{--bg:#0b1220;--panel:#121d31;--panel2:#18253b;--text:#f3f6fc;--muted:#9aabc4;--green:#42d392;--line:#27364f;--gold:#f7c85b}
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#101a2c 0,#0b1220 340px);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .wrap{max-width:1120px;margin:auto;padding:18px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0 22px}
+    .brand{display:flex;align-items:center;gap:10px;font-size:1.3rem;font-weight:850;letter-spacing:-.5px}
+    .logo{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:var(--green);color:#082016;font-size:1.4rem}
+    .tag{color:var(--muted);font-size:.82rem}
+    .pill{border:1px solid #34516a;color:var(--green);padding:7px 11px;border-radius:999px;font-size:.78rem;font-weight:700}
+    .hero{padding:24px;border:1px solid var(--line);border-radius:24px;background:radial-gradient(circle at 90% 10%,#244c4a 0,transparent 34%),linear-gradient(135deg,#172941,#101a2c);display:flex;justify-content:space-between;gap:20px;align-items:center}
+    .eyebrow{color:var(--green);font-size:.75rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+    h1{font-size:clamp(1.8rem,5vw,3rem);line-height:1.05;margin:10px 0}
+    .hero p{color:var(--muted);max-width:560px;line-height:1.55;margin-bottom:0}
+    .hero-icon{font-size:clamp(3rem,9vw,6rem);filter:drop-shadow(0 8px 22px #0007)}
+    .sports{display:flex;gap:8px;overflow:auto;padding:18px 0 8px}
+    .sport-btn,.nav-btn,.filter-btn{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:12px;padding:10px 14px;white-space:nowrap}
+    .sport-btn.active,.nav-btn.active,.filter-btn.active{background:var(--green);color:#071a13;border-color:var(--green);font-weight:800}
+    .section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 12px}
+    h2{font-size:1.2rem;margin:0}
+    .nav{display:flex;gap:8px;overflow:auto;padding:5px 0 12px}
+    .toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:12px 0}
+    .search{background:var(--panel);border:1px solid var(--line);color:var(--text);padding:11px 13px;border-radius:12px;min-width:190px;flex:1;max-width:360px;outline:none}
+    .search:focus{border-color:var(--green)}
+    .filters{display:flex;gap:7px;overflow:auto}
+    .filter-btn{padding:8px 11px;font-size:.85rem}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .card{background:linear-gradient(145deg,var(--panel),#101a2b);border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}
+    .match-top{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:.78rem;margin-bottom:15px}
+    .live{color:#ff7777;font-weight:850}.upcoming{color:var(--gold);font-weight:750}.ended{color:var(--muted);font-weight:750}
+    .team{display:flex;align-items:center;gap:10px;margin:11px 0;font-weight:750}
+    .crest{width:34px;height:34px;display:grid;place-items:center;background:var(--panel2);border-radius:11px;font-size:1.15rem;flex-shrink:0}
+    .score{margin-left:auto;font-size:1.2rem;font-variant-numeric:tabular-nums}
+    .match-foot{border-top:1px solid var(--line);margin-top:14px;padding-top:11px;display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.8rem}
+    .star{border:0;background:transparent;color:#7e8da5;font-size:1.25rem;padding:0 4px}.star.on{color:var(--gold)}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}
+    table{border-collapse:collapse;width:100%;min-width:460px;background:var(--panel);font-size:.9rem}
+    th,td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line)}
+    th{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+    tr:last-child td{border-bottom:0}.pos{color:var(--green);font-weight:850}
+    .news-card{display:flex;gap:13px}.news-icon{display:grid;place-items:center;min-width:54px;height:54px;background:var(--panel2);border-radius:15px;font-size:1.6rem}
+    .news-card h3{font-size:1rem;margin:0 0 6px}.news-card p{margin:0;color:var(--muted);line-height:1.5;font-size:.9rem}
+    .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:32px 14px;border:1px dashed var(--line);border-radius:16px}
+    .notice{margin-top:20px;padding:12px 14px;background:#17253a;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:.82rem;line-height:1.5}
+    footer{color:var(--muted);text-align:center;font-size:.8rem;padding:24px 0 10px}
+    @media(max-width:640px){.wrap{padding:13px}.hero{padding:19px}.hero-icon{font-size:3rem}.grid{grid-template-columns:1fr}.brand{font-size:1.1rem}.pill{font-size:.7rem}.toolbar{align-items:stretch}.search{max-width:none}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="logo">🏆</div><div>SportZone<div class="tag">Every match. One place.</div></div></div>
+    <div class="pill">FREE DEMO</div>
+  </header>
+
+  <section class="hero">
+    <div><div class="eyebrow">Your sports hub</div><h1>Stay in the game.</h1><p>Explore match scores, upcoming fixtures, league standings and sports headlines in one simple place.</p></div>
+    <div class="hero-icon" aria-hidden="true">⚽</div>
+  </section>
+
+  <div class="sports" aria-label="Choose sport">
+    <button class="sport-btn active" data-sport="Football">⚽ Football</button>
+    <button class="sport-btn" data-sport="Basketball">🏀 Basketball</button>
+    <button class="sport-btn" data-sport="Tennis">🎾 Tennis</button>
+    <button class="sport-btn" data-sport="Cricket">🏏 Cricket</button>
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <button class="nav-btn active" data-page="scores">Scores & Fixtures</button>
+    <button class="nav-btn" data-page="tables">League Table</button>
+    <button class="nav-btn" data-page="news">Sports News</button>
+    <button class="nav-btn" data-page="favorites">★ Favorites</button>
+  </nav>
+
+  <div id="content"></div>
+  <div class="notice"><strong>Demo data:</strong> Scores, fixtures, standings and headlines in this first version are examples, not live results. No betting tips or guaranteed predictions. Connect a sports data provider later for real updates.</div>
+  <footer>SportZone • Built as a free starter project • Not affiliated with any league or club</footer>
+</div>
+<script>
+const matches = [
+ {sport:"Football",league:"Premier League",status:"LIVE 62′",kind:"live",home:"North London FC",away:"Manchester Blue",h:2,a:1,icons:["🔴","🔵"],date:"Today"},
+ {sport:"Football",league:"La Liga",status:"FT",kind:"ended",home:"Madrid Stars",away:"Catalonia FC",h:1,a:1,icons:["⚪","🔵🔴"],date:"Today"},
+ {sport:"Football",league:"Ghana Premier League",status:"15:00",kind:"upcoming",home:"Accra Hearts",away:"Kumasi Ashanti",h:null,a:null,icons:["❤️","🟡"],date:"Today"},
+ {sport:"Football",league:"UEFA Champions League",status:"Tomorrow · 20:00",kind:"upcoming",home:"Paris City",away:"Munich Reds",h:null,a:null,icons:["🔵","🔴"],date:"Tomorrow"},
+ {sport:"Football",league:"Serie A",status:"FT",kind:"ended",home:"Milan Rossoneri",away:"Turin United",h:3,a:0,icons:["🔴⚫","⚪"],date:"Yesterday"},
+ {sport:"Basketball",league:"Pro Basketball",status:"LIVE Q3",kind:"live",home:"Coastal Eagles",away:"Capital Wolves",h:78,a:72,icons:["🦅","🐺"],date:"Today"},
+ {sport:"Basketball",league:"Pro Basketball",status:"19:30",kind:"upcoming",home:"Metro Giants",away:"Lakeside Stars",h:null,a:null,icons:["🏙️","⭐"],date:"Today"},
+ {sport:"Tennis",league:"Open Series",status:"LIVE · Set 2",kind:"live",home:"Alex Morgan",away:"Jordan Lee",h:1,a:0,icons:["🎾","🎾"],date:"Today"},
+ {sport:"Tennis",league:"Open Series",status:"Tomorrow · 14:00",kind:"upcoming",home:"Taylor Reed",away:"Casey Park",h:null,a:null,icons:["🎾","🎾"],date:"Tomorrow"},
+ {sport:"Cricket",league:"International Series",status:"LIVE",kind:"live",home:"Ghana XI",away:"Coastal XI",h:142,a:128,icons:["🇬🇭","🏏"],date:"Today"},
+ {sport:"Cricket",league:"Regional Cup",status:"Tomorrow · 10:00",kind:"upcoming",home:"Northern XI",away:"Eastern XI",h:null,a:null,icons:["🏏","🏏"],date:"Tomorrow"}
+];
+const standings = [
+ {team:"North London FC",p:10,w:7,d:2,l:1,pts:23},
+ {team:"Manchester Blue",p:10,w:7,d:1,l:2,pts:22},
+ {team:"Madrid Stars",p:10,w:6,d:2,l:2,pts:20},
+ {team:"Accra Hearts",p:10,w:5,d:3,l:2,pts:18},
+ {team:"Kumasi Ashanti",p:10,w:4,d:2,l:4,pts:14}
+];
+const news = [
+ {icon:"🌍",title:"The global game keeps growing",text:"A sample headline slot for international football news and tournament updates."},
+ {icon:"🇬🇭",title:"Ghana football watch",text:"Use this space for Ghana Premier League updates, national-team news and local competitions."},
+ {icon:"📊",title:"Numbers behind the match",text:"A sample analysis story covering team form, recent results and key match statistics."}
+];
+let sport="Football", page="scores", filter="all", search="", favorites=new Set();
+const content=document.getElementById("content");
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function matchCard(m,i){
+ const score=(v)=>v===null?"—":v;
+ return `<article class="card"><div class="match-top"><span>${safe(m.league)}</span><span class="${m.kind}">${safe(m.status)}</span></div>
+ <div class="team"><span class="crest">${m.icons[0]}</span><span>${safe(m.home)}</span><span class="score">${score(m.h)}</span></div>
+ <div class="team"><span class="crest">${m.icons[1]}</span><span>${safe(m.away)}</span><span class="score">${score(m.a)}</span></div>
+ <div class="match-foot"><span>${safe(m.date)} · ${safe(m.sport)}</span><button class="star ${favorites.has(m.home+"|"+m.away)?"on":""}" aria-label="Toggle favorite" data-fav="${i}">${favorites.has(m.home+"|"+m.away)?"★":"☆"}</button></div></article>`;
+}
+function render(){
+ document.querySelectorAll(".sport-btn").forEach(b=>b.classList.toggle("active",b.dataset.sport===sport));
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+ if(page==="scores"||page==="favorites"){
+   const base=matches.map((m,i)=>({...m,_i:i})).filter(m=>m.sport===sport);
+   const list=base.filter(m=>(page!=="favorites"||favorites.has(m.home+"|"+m.away))&&(filter==="all"||m.kind===filter)&&(!search||(m.home+" "+m.away+" "+m.league).toLowerCase().includes(search.toLowerCase())));
+   content.innerHTML=`<div class="section-head"><h2>${page==="favorites"?"Your favorites":sport+" matches"}</h2><span class="tag">${list.length} matches</span></div>
+   <div class="toolbar"><input class="search" id="search" placeholder="Search teams or leagues…" value="${safe(search)}" aria-label="Search teams or leagues"><div class="filters">
+   <button class="filter-btn ${filter==="all"?"active":""}" data-filter="all">All</button><button class="filter-btn ${filter==="live"?"active":""}" data-filter="live">Live</button><button class="filter-btn ${filter==="upcoming"?"active":""}" data-filter="upcoming">Upcoming</button><button class="filter-btn ${filter==="ended"?"active":""}" data-filter="ended">Finished</button></div></div>
+   <div class="grid">${list.length?list.map(m=>matchCard(m,m._i)).join(""):'<div class="empty">No matches found. Try another filter or search.</div>'}</div>`;
+   const input=document.getElementById("search"); input.addEventListener("input",e=>{search=e.target.value;const pos=search.length;render();const next=document.getElementById("search");next.focus();next.setSelectionRange(pos,pos);});
+   content.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;render()}));
+   content.querySelectorAll("[data-fav]").forEach(b=>b.addEventListener("click",()=>{const m=matches[Number(b.dataset.fav)],key=m.home+"|"+m.away;favorites.has(key)?favorites.delete(key):favorites.add(key);render()}));
+ }else if(page==="tables"){
+   content.innerHTML=`<div class="section-head"><h2>League table</h2><span class="tag">Sample standings</span></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr></thead><tbody>${standings.map((t,i)=>`<tr><td class="pos">${i+1}</td><td>${safe(t.team)}</td><td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td><strong>${t.pts}</strong></td></tr>`).join("")}</tbody></table></div><p class="tag">Example table for demonstration only. Real standings must come from an up-to-date data source.</p>`;
+ }else{
+   content.innerHTML=`<div class="section-head"><h2>Sports news</h2><span class="tag">Sample headlines</span></div><div class="grid">${news.map(n=>`<article class="card news-card"><div class="news-icon">${n.icon}</div><div><h3>${safe(n.title)}</h3><p>${safe(n.text)}</p></div></article>`).join("")}</div>`;
+ }
+}
+document.querySelectorAll(".sport-btn").forEach(b=>b.addEventListener("click",()=>{sport=b.dataset.sport;page="scores";filter="all";search="";render()}));
+document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>{page=b.dataset.page;filter="all";search="";render()}));
+render();
+</script>
+</body>
+</html>
